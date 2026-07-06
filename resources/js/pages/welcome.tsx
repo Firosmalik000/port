@@ -1,7 +1,5 @@
 import { Head } from '@inertiajs/react';
 import { motion, useReducedMotion } from 'framer-motion';
-import type { ReactNode } from 'react';
-import { useRef } from 'react';
 import {
     ArrowUpRight,
     Braces,
@@ -10,7 +8,6 @@ import {
     Database,
     Download,
     Github,
-    Globe,
     Layers3,
     Leaf,
     Mail,
@@ -23,6 +20,8 @@ import {
     Sparkles,
     Workflow,
 } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { useRef } from 'react';
 
 type ExperienceEntry = {
     company: string;
@@ -219,7 +218,6 @@ const skills: Skill[] = [
     { name: 'Node.js', icon: <Cpu className="h-5 w-5" /> },
     { name: 'Express.js', icon: <Server className="h-5 w-5" /> },
     { name: 'REST APIs', icon: <Workflow className="h-5 w-5" /> },
-    { name: 'GraphQL (Hasura)', icon: <Database className="h-5 w-5" /> },
     { name: 'MySQL', icon: <Database className="h-5 w-5" /> },
     { name: 'MongoDB', icon: <Database className="h-5 w-5" /> },
     { name: 'React Native', icon: <MonitorSmartphone className="h-5 w-5" /> },
@@ -251,11 +249,6 @@ const socialLinks: SocialLink[] = [
         label: 'LinkedIn',
         href: 'https://id.linkedin.com/in/firos-malik-abdillah',
         icon: <ArrowUpRight className="h-4 w-4" />,
-    },
-    {
-        label: 'Portfolio',
-        href: 'https://portov2-ten.vercel.app/',
-        icon: <Globe className="h-4 w-4" />,
     },
 ];
 
@@ -404,7 +397,7 @@ export default function Welcome() {
                                         applications
                                     </span>
                                 </h1>
-                                <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:mt-5 sm:text-base sm:leading-8 lg:text-lg">
+                                {/* <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:mt-5 sm:text-base sm:leading-8 lg:text-lg">
                                     Full-Stack Web Developer experienced in
                                     shipping client projects using Laravel and
                                     React.js (TypeScript). Comfortable owning
@@ -412,11 +405,11 @@ export default function Welcome() {
                                     development and integration, database
                                     workflows, debugging, and production
                                     support.
-                                </p>
+                                </p> */}
                                 <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
-                                    Ciputat Timur, South Tangerang. Phone: +62
-                                    852-3644-6961. Email:
-                                    firosmalik.job@gmail.com.
+                                    Based in Ciputat Timur, South Tangerang.
+                                    Available for product-focused web
+                                    development work.
                                 </p>
                             </div>
 
@@ -431,11 +424,11 @@ export default function Welcome() {
                                     Open Resume
                                 </a>
                                 <a
-                                    href="mailto:firosmalik.job@gmail.com"
+                                    href="#contact"
                                     className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 sm:px-6"
                                 >
-                                    <Mail className="h-4 w-4" />
-                                    Email Me
+                                    <MapPin className="h-4 w-4" />
+                                    View Contact
                                 </a>
                             </div>
                         </motion.div>
@@ -520,10 +513,11 @@ export default function Welcome() {
                                         }}
                                     >
                                         <p className="text-[10px] tracking-[0.24em] text-slate-400 uppercase sm:text-xs sm:tracking-[0.28em]">
-                                            Location
+                                            Availability
                                         </p>
                                         <p className="mt-2 text-sm leading-6 font-semibold text-slate-800">
-                                            Ciputat Timur, South Tangerang
+                                            Available for freelance and
+                                            full-time roles
                                         </p>
                                     </motion.div>
                                 </div>
@@ -531,7 +525,7 @@ export default function Welcome() {
                         </motion.div>
                     </section>
 
-                    <section className="mt-8 rounded-[1.75rem] border border-slate-200 bg-white p-4 shadow-sm sm:mt-10 sm:p-6">
+                    <section className="mt-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white p-4 shadow-sm sm:mt-10 sm:p-6">
                         <div className="flex flex-col gap-3 border-b border-slate-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
                             <div>
                                 <p className="text-[10px] tracking-[0.24em] text-slate-400 uppercase sm:text-xs sm:tracking-[0.32em]">
@@ -549,40 +543,7 @@ export default function Welcome() {
                             </p>
                         </div>
 
-                        <div className="mt-5 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-                            <div className="rounded-[1.25rem] border border-sky-200 bg-[linear-gradient(135deg,_rgba(15,23,42,0.98),_rgba(30,64,175,0.92))] p-5 text-white shadow-[0_18px_50px_rgba(15,23,42,0.12)] sm:rounded-[1.5rem] sm:p-6">
-                                <div className="flex items-center justify-between gap-3">
-                                    <div>
-                                        <p className="text-[10px] tracking-[0.24em] text-white/45 uppercase sm:text-xs sm:tracking-[0.3em]">
-                                            Profile snapshot
-                                        </p>
-                                        <p className="mt-2 text-xl font-semibold sm:text-2xl">
-                                            Full-Stack Web Developer
-                                        </p>
-                                    </div>
-                                    <Sparkles className="h-6 w-6 text-white/60" />
-                                </div>
-                                <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-3">
-                                    {[
-                                        ['Frontend', 'React, TS, Tailwind'],
-                                        ['Backend', 'Laravel, Node.js'],
-                                        ['Workflow', 'API, debug, delivery'],
-                                    ].map(([label, value]) => (
-                                        <div
-                                            key={label}
-                                            className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm"
-                                        >
-                                            <p className="text-[10px] tracking-[0.22em] text-white/45 uppercase sm:text-xs sm:tracking-[0.24em]">
-                                                {label}
-                                            </p>
-                                            <p className="mt-2 text-sm font-semibold text-white">
-                                                {value}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
+                        <div className="mt-5 grid gap-4">
                             <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-5 sm:rounded-[1.5rem] sm:p-6">
                                 <p className="text-[10px] tracking-[0.24em] text-slate-400 uppercase sm:text-xs sm:tracking-[0.3em]">
                                     Skills
@@ -667,51 +628,67 @@ export default function Welcome() {
                                         duration: 0.5,
                                         delay: groupIndex * 0.06,
                                     }}
-                                    className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-sm"
+                                    className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.08)]"
                                 >
-                                    <div className="flex items-center justify-between gap-3 border-b border-slate-100 bg-[linear-gradient(135deg,_rgba(248,250,252,0.96),_rgba(226,232,240,0.75))] px-4 py-4 sm:px-5">
-                                        <div>
-                                            <p className="text-[10px] tracking-[0.24em] text-slate-400 uppercase sm:text-xs sm:tracking-[0.32em]">
-                                                Year
-                                            </p>
-                                            <h3 className="mt-1 text-lg font-semibold text-slate-950 sm:text-xl">
-                                                {group.year}
-                                            </h3>
-                                        </div>
-                                        <div className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700">
-                                            History
+                                    <div className="border-b border-slate-100 bg-[linear-gradient(135deg,_rgba(15,23,42,0.98),_rgba(30,64,175,0.88),_rgba(56,189,248,0.72))] px-4 py-5 text-white sm:px-6">
+                                        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                                            <div>
+                                                <p className="text-[10px] tracking-[0.28em] text-white/55 uppercase sm:text-xs sm:tracking-[0.34em]">
+                                                    Career timeline
+                                                </p>
+                                                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] sm:text-3xl">
+                                                    {group.year}
+                                                </h3>
+                                            </div>
+                                            <div className="flex items-center gap-2 self-start rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/80 backdrop-blur-sm">
+                                                <span className="h-2 w-2 rounded-full bg-emerald-300" />
+                                                {group.entries.length} role
+                                                {group.entries.length > 1
+                                                    ? 's'
+                                                    : ''}
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="relative px-4 py-4 sm:px-5">
-                                        <div className="absolute top-0 bottom-0 left-6 hidden w-px bg-gradient-to-b from-sky-200 via-slate-200 to-amber-200 sm:block" />
+                                    <div className="relative px-4 py-5 sm:px-6 sm:py-6">
+                                        <div className="absolute top-6 bottom-6 left-6 hidden w-px bg-gradient-to-b from-sky-200 via-slate-200 to-amber-200 sm:block" />
                                         <div className="space-y-4">
                                             {group.entries.map((entry) => (
                                                 <div
                                                     key={`${entry.company}-${entry.role}`}
-                                                    className="relative grid gap-4 rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4 sm:grid-cols-[0.38fr_1fr] sm:p-5"
+                                                    className="relative grid gap-4 rounded-[1.35rem] border border-slate-200 bg-[linear-gradient(180deg,_rgba(255,255,255,0.94),_rgba(248,250,252,0.98))] p-4 shadow-[0_10px_30px_rgba(15,23,42,0.04)] transition group-hover:shadow-[0_14px_34px_rgba(15,23,42,0.06)] sm:grid-cols-[0.34fr_1fr] sm:p-5"
                                                 >
                                                     <div className="absolute top-5 left-0 hidden -translate-x-1/2 sm:block">
-                                                        <span className="block h-3.5 w-3.5 rounded-full border-4 border-white bg-sky-500 shadow-sm" />
+                                                        <span className="block h-3.5 w-3.5 rounded-full border-4 border-white bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-600 shadow-sm" />
                                                     </div>
-                                                    <div className="rounded-2xl bg-[linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(30,64,175,0.92))] p-4 text-white">
-                                                        <p className="text-[10px] tracking-[0.22em] text-white/45 uppercase sm:text-xs sm:tracking-[0.28em]">
+                                                    <div className="rounded-[1.15rem] border border-slate-200 bg-slate-950 p-4 text-white shadow-lg shadow-slate-950/5">
+                                                        <p className="text-[10px] tracking-[0.24em] text-white/45 uppercase sm:text-xs sm:tracking-[0.28em]">
+                                                            Period
+                                                        </p>
+                                                        <p className="mt-2 text-sm font-semibold text-white sm:text-base">
                                                             {entry.period}
                                                         </p>
-                                                        <p className="mt-3 text-sm font-medium text-white/80">
+                                                        <div className="mt-4 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-medium text-white/75">
                                                             {entry.location}
-                                                        </p>
+                                                        </div>
                                                     </div>
 
                                                     <div className="flex flex-col justify-between gap-4">
                                                         <div>
-                                                            <p className="text-base font-semibold text-slate-950 sm:text-lg">
-                                                                {entry.company}
-                                                            </p>
-                                                            <p className="mt-1 text-sm font-medium text-blue-700">
+                                                            <div className="flex flex-wrap items-center gap-2">
+                                                                <p className="text-base font-semibold tracking-[-0.02em] text-slate-950 sm:text-lg">
+                                                                    {
+                                                                        entry.company
+                                                                    }
+                                                                </p>
+                                                                <span className="rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-blue-700 uppercase">
+                                                                    Role
+                                                                </span>
+                                                            </div>
+                                                            <p className="mt-2 text-sm font-medium text-blue-700">
                                                                 {entry.role}
                                                             </p>
-                                                            <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-600">
+                                                            <ul className="mt-4 grid gap-3 text-sm leading-7 text-slate-600">
                                                                 {entry.bullets.map(
                                                                     (
                                                                         bullet,
@@ -720,10 +697,10 @@ export default function Welcome() {
                                                                             key={
                                                                                 bullet
                                                                             }
-                                                                            className="flex gap-3"
+                                                                            className="flex gap-3 rounded-2xl border border-slate-100 bg-white px-3 py-3"
                                                                         >
-                                                                            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-blue-700" />
-                                                                            <span>
+                                                                            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400" />
+                                                                            <span className="flex-1">
                                                                                 {
                                                                                     bullet
                                                                                 }
@@ -783,7 +760,7 @@ export default function Welcome() {
 
                         <div
                             ref={projectsRef}
-                            className="mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto pr-1 pb-2 sm:mt-5"
+                            className="mt-4 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto overscroll-x-contain pr-1 pb-2 [-ms-overflow-style:none] sm:mt-5 [&::-webkit-scrollbar]:hidden"
                         >
                             {projects.map((project, index) => (
                                 <motion.article
@@ -796,7 +773,7 @@ export default function Welcome() {
                                         duration: 0.5,
                                         delay: index * 0.08,
                                     }}
-                                    className="group relative min-w-[280px] snap-start overflow-hidden rounded-[1.25rem] border border-slate-200 bg-slate-950 p-4 text-white shadow-[0_16px_48px_rgba(15,23,42,0.12)] transition sm:min-w-[340px] sm:rounded-[1.5rem] sm:p-5"
+                                    className="group relative w-[280px] shrink-0 snap-start overflow-hidden rounded-[1.25rem] border border-slate-200 bg-slate-950 p-4 text-white shadow-[0_16px_48px_rgba(15,23,42,0.12)] transition sm:w-[340px] sm:rounded-[1.5rem] sm:p-5"
                                 >
                                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.2),_transparent_35%),radial-gradient(circle_at_bottom_left,_rgba(245,158,11,0.12),_transparent_25%)] opacity-0 transition duration-300 group-hover:opacity-100" />
                                     <div className="relative">
