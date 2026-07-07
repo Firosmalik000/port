@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
     ArrowUpRight,
     Braces,
@@ -38,9 +38,12 @@ type ExperienceGroup = {
 
 type Project = {
     name: string;
+    category: string;
     tech: string[];
     live: string;
     dev: string;
+    github: string;
+    status?: string;
 };
 
 type Skill = {
@@ -167,40 +170,70 @@ const experienceTimeline: ExperienceGroup[] = [
 
 const projects: Project[] = [
     {
+        name: 'Asfar Tour',
+        category: 'Internal System',
+        tech: ['Laravel', 'Tailwind CSS', 'React Inertia', 'Framer Motion'],
+        live: '',
+        dev: 'https://travel.firos.web.id',
+        github: 'https://github.com/Firosmalik000/travel-proposal',
+        status: 'Ongoing',
+    },
+    {
+        name: 'Arrayan Learning Course',
+        category: 'Internal System',
+        tech: ['Laravel', 'Tailwind CSS', 'React Inertia', 'Framer Motion'],
+        live: '',
+        dev: 'https://arrayan.firos.web.id',
+        github: 'https://github.com/Firosmalik000/arrayyan-learning-course',
+        status: 'Ongoing',
+    },
+    {
         name: 'PT Kevin Shipping',
+        category: 'Landing Page',
         tech: ['React.js', 'Tailwind CSS', 'React Icons'],
         live: 'https://kevinshipping.com/',
         dev: 'https://pt-kevin-shipping.vercel.app/',
+        github: 'https://github.com/Firosmalik000',
     },
     {
         name: 'Sri Rahayu Silver',
+        category: 'Landing Page',
         tech: ['React.js', 'Tailwind CSS', 'React Icons'],
         live: 'https://www.srirahayusilver.com/',
         dev: 'https://sriraayusilver.vercel.app/',
+        github: 'https://github.com/Firosmalik000',
     },
     {
         name: 'YHH',
+        category: 'Landing Page',
         tech: ['React.js', 'Tailwind CSS', 'React Icons'],
         live: 'https://yhh.co.id/',
         dev: 'https://yhh-red.vercel.app/',
+        github: 'https://github.com/Firosmalik000',
     },
     {
         name: 'KYP Bali Trans',
+        category: 'Landing Page',
         tech: ['React.js', 'Tailwind CSS', 'React Icons'],
         live: 'https://www.kypbalitrans.com/',
         dev: 'https://kyp-bali-trans.vercel.app/',
+        github: 'https://github.com/Firosmalik000',
     },
     {
         name: 'Salam Pesona Bahari',
+        category: 'Landing Page',
         tech: ['React.js', 'Tailwind CSS', 'React Icons'],
         live: 'https://salampesonabahari.com/',
         dev: 'https://salam-pesona-bahari-x51l.vercel.app/',
+        github: 'https://github.com/Firosmalik000',
     },
     {
         name: 'Nabina Travel',
+        category: 'Landing Page',
         tech: ['React.js', 'Tailwind CSS', 'React Icons', 'Framer Motion'],
         live: 'https://www.muhammadnabina.com/',
         dev: 'https://nabina-travel2.vercel.app/',
+        github: 'https://github.com/Firosmalik000',
     },
 ];
 
@@ -263,8 +296,60 @@ const additionalExperience = [
     ...experienceTimeline[4].entries,
 ];
 
+const entranceOffsets = [
+    { x: -12, y: 0 },
+    { x: 12, y: 0 },
+    { x: 0, y: -12 },
+    { x: 0, y: 12 },
+    { x: -8, y: -8 },
+    { x: 8, y: -8 },
+    { x: -8, y: 8 },
+    { x: 8, y: 8 },
+];
+
+function createRevealMotion(
+    index: number,
+    delay = 0,
+    duration = 0.42,
+): {
+    initial: { opacity: number; x: number; y: number; scale: number };
+    whileInView: { opacity: number; x: number; y: number; scale: number };
+    viewport: { once: boolean; amount: number };
+    transition: {
+        type: 'spring';
+        stiffness: number;
+        damping: number;
+        mass: number;
+        delay: number;
+    };
+} {
+    const offset = entranceOffsets[index % entranceOffsets.length];
+
+    return {
+        initial: {
+            opacity: 0,
+            x: offset.x,
+            y: offset.y,
+            scale: 0.985,
+        },
+        whileInView: {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            scale: 1,
+        },
+        viewport: { once: false, amount: 0.28 },
+        transition: {
+            type: 'spring',
+            stiffness: Math.max(110, 180 - duration * 90 - index * 2),
+            damping: Math.min(26, 16 + duration * 8 + (index % 3)),
+            mass: 0.8,
+            delay,
+        },
+    };
+}
+
 export default function Welcome() {
-    const shouldReduceMotion = useReducedMotion();
     const projectsRef = useRef<HTMLDivElement | null>(null);
 
     const profileUrl = new URL('../../../docs/profile.jpg', import.meta.url)
@@ -292,72 +377,30 @@ export default function Welcome() {
             <div className="relative min-h-screen overflow-hidden bg-[#f8fafc] text-[#0f172a]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(30,64,175,0.12),_transparent_35%),radial-gradient(circle_at_80%_20%,_rgba(15,23,42,0.05),_transparent_28%),radial-gradient(circle_at_20%_80%,_rgba(14,165,233,0.08),_transparent_28%),radial-gradient(circle_at_85%_75%,_rgba(249,115,22,0.08),_transparent_26%)]" />
 
-                <motion.div
+                <div
                     aria-hidden="true"
                     className="absolute top-[-7rem] left-[-7rem] h-80 w-80 rounded-full bg-sky-400/10 blur-3xl"
-                    animate={
-                        shouldReduceMotion
-                            ? undefined
-                            : { x: [0, 18, 0], y: [0, 12, 0] }
-                    }
-                    transition={{
-                        duration: 9,
-                        repeat: Number.POSITIVE_INFINITY,
-                        ease: 'easeInOut',
-                    }}
                 />
 
-                <motion.div
+                <div
                     aria-hidden="true"
                     className="absolute top-[20%] right-[-6rem] h-72 w-72 rounded-full bg-amber-400/10 blur-3xl"
-                    animate={
-                        shouldReduceMotion
-                            ? undefined
-                            : { x: [0, -14, 0], y: [0, 10, 0] }
-                    }
-                    transition={{
-                        duration: 11,
-                        repeat: Number.POSITIVE_INFINITY,
-                        ease: 'easeInOut',
-                    }}
                 />
 
-                <motion.div
+                <div
                     aria-hidden="true"
                     className="absolute bottom-[-6rem] left-[18%] h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl"
-                    animate={
-                        shouldReduceMotion
-                            ? undefined
-                            : { x: [0, 12, 0], y: [0, -12, 0] }
-                    }
-                    transition={{
-                        duration: 12,
-                        repeat: Number.POSITIVE_INFINITY,
-                        ease: 'easeInOut',
-                    }}
                 />
 
                 <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-8 sm:py-6 lg:px-10">
                     <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-                        <motion.div
-                            className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white shadow-sm sm:h-12 sm:w-12"
-                            animate={
-                                shouldReduceMotion
-                                    ? undefined
-                                    : { y: [0, -3, 0] }
-                            }
-                            transition={{
-                                duration: 5,
-                                repeat: Number.POSITIVE_INFINITY,
-                                ease: 'easeInOut',
-                            }}
-                        >
+                        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white shadow-sm sm:h-12 sm:w-12">
                             <img
                                 src={logoUrl}
                                 alt="Logo"
                                 className="h-7 w-7 sm:h-8 sm:w-8"
                             />
-                        </motion.div>
+                        </div>
                         <div className="min-w-0">
                             <p className="text-[10px] tracking-[0.24em] text-slate-500 uppercase sm:text-xs sm:tracking-[0.32em]">
                                 Portfolio
@@ -390,31 +433,38 @@ export default function Welcome() {
                 <main className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 sm:px-8 sm:pb-16 lg:px-10">
                     <section className="overflow-hidden p-4 sm:p-6 lg:p-8">
                         <div className="grid gap-8 pt-4 sm:pt-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, ease: 'easeOut' }}
-                                className="space-y-5 sm:space-y-7"
-                            >
-                                <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/50 bg-gradient-to-br from-white/35 to-white/15 px-3 py-2 text-xs text-slate-700 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-md sm:px-4 sm:text-sm">
+                            <motion.div className="space-y-5 sm:space-y-7">
+                                <motion.div
+                                    {...createRevealMotion(0, 0.02, 0.38)}
+                                    className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/50 bg-gradient-to-br from-white/35 to-white/15 px-3 py-2 text-xs text-slate-700 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-md sm:px-4 sm:text-sm"
+                                >
                                     <Sparkles className="h-4 w-4 text-blue-600" />
                                     Full-Stack Web Developer | Laravel |
                                     React.js (TypeScript) | Node.js
-                                </div>
+                                </motion.div>
 
                                 <div className="max-w-3xl">
-                                    <h1 className="max-w-2xl text-4xl leading-[0.96] font-semibold tracking-[-0.05em] text-slate-950 sm:text-5xl lg:text-7xl">
+                                    <motion.h1
+                                        {...createRevealMotion(1, 0.08, 0.42)}
+                                        className="max-w-2xl text-4xl leading-[0.96] font-semibold tracking-[-0.05em] text-slate-950 sm:text-5xl lg:text-7xl"
+                                    >
                                         Firos Malik Abdillah
-                                    </h1>
+                                    </motion.h1>
 
-                                    <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                                    <motion.p
+                                        {...createRevealMotion(2, 0.12, 0.4)}
+                                        className="mt-3 max-w-2xl text-sm leading-7 text-slate-600"
+                                    >
                                         Based in Ciputat Timur, South Tangerang.
                                         Available for product-focused web
                                         development work.
-                                    </p>
+                                    </motion.p>
                                 </div>
 
-                                <div className="flex flex-col gap-3 sm:flex-row">
+                                <motion.div
+                                    {...createRevealMotion(3, 0.16, 0.36)}
+                                    className="flex flex-col gap-3 sm:flex-row"
+                                >
                                     <a
                                         href={resumeUrl}
                                         target="_blank"
@@ -431,32 +481,14 @@ export default function Welcome() {
                                         <MapPin className="h-4 w-4" />
                                         View Contact
                                     </a>
-                                </div>
+                                </motion.div>
                             </motion.div>
 
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.98, y: 16 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.75,
-                                    ease: 'easeOut',
-                                    delay: 0.05,
-                                }}
+                                {...createRevealMotion(4, 0.05, 0.46)}
                                 className="relative mx-auto w-full max-w-xl lg:max-w-none"
                             >
-                                <motion.div
-                                    className="relative overflow-hidden rounded-[1.75rem] border border-white/20 bg-gradient-to-br from-white/20 to-white/5 p-3 shadow-[0_24px_70px_rgba(37,99,235,0.12)] backdrop-blur-xl sm:rounded-[2rem] sm:p-5"
-                                    animate={
-                                        shouldReduceMotion
-                                            ? undefined
-                                            : { y: [0, -6, 0] }
-                                    }
-                                    transition={{
-                                        duration: 6.5,
-                                        repeat: Number.POSITIVE_INFINITY,
-                                        ease: 'easeInOut',
-                                    }}
-                                >
+                                <div className="relative overflow-hidden rounded-[1.75rem] border border-white/20 bg-gradient-to-br from-white/20 to-white/5 p-3 shadow-[0_24px_70px_rgba(37,99,235,0.12)] backdrop-blur-xl sm:rounded-[2rem] sm:p-5">
                                     <div className="flex items-center justify-between gap-3">
                                         <div>
                                             <p className="text-[10px] tracking-[0.24em] text-sky-600 uppercase sm:text-xs sm:tracking-[0.28em]">
@@ -480,19 +512,7 @@ export default function Welcome() {
                                     </div>
 
                                     <div className="mt-3 grid gap-3 sm:mt-4 sm:grid-cols-2">
-                                        <motion.div
-                                            className="rounded-2xl border border-sky-100 bg-sky-50/80 p-4"
-                                            animate={
-                                                shouldReduceMotion
-                                                    ? undefined
-                                                    : { y: [0, -3, 0] }
-                                            }
-                                            transition={{
-                                                duration: 4.8,
-                                                repeat: Number.POSITIVE_INFINITY,
-                                                ease: 'easeInOut',
-                                            }}
-                                        >
+                                        <div className="rounded-2xl border border-sky-100 bg-sky-50/80 p-4">
                                             <p className="text-[10px] tracking-[0.24em] text-sky-600 uppercase sm:text-xs sm:tracking-[0.28em]">
                                                 Focus
                                             </p>
@@ -500,20 +520,8 @@ export default function Welcome() {
                                                 Laravel, React, TypeScript,
                                                 Node.js
                                             </p>
-                                        </motion.div>
-                                        <motion.div
-                                            className="rounded-2xl border border-indigo-100 bg-indigo-50/80 p-4"
-                                            animate={
-                                                shouldReduceMotion
-                                                    ? undefined
-                                                    : { y: [0, 3, 0] }
-                                            }
-                                            transition={{
-                                                duration: 5.2,
-                                                repeat: Number.POSITIVE_INFINITY,
-                                                ease: 'easeInOut',
-                                            }}
-                                        >
+                                        </div>
+                                        <div className="rounded-2xl border border-indigo-100 bg-indigo-50/80 p-4">
                                             <p className="text-[10px] tracking-[0.24em] text-indigo-600 uppercase sm:text-xs sm:tracking-[0.28em]">
                                                 Availability
                                             </p>
@@ -521,33 +529,39 @@ export default function Welcome() {
                                                 Available for freelance and
                                                 full-time roles
                                             </p>
-                                        </motion.div>
+                                        </div>
                                     </div>
-                                </motion.div>
+                                </div>
                             </motion.div>
                         </div>
                     </section>
 
                     <section className="mt-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-[linear-gradient(180deg,_rgba(255,255,255,0.96),_rgba(248,250,252,0.94))] p-4 shadow-sm sm:mt-10 sm:p-6">
                         <div className="flex flex-col gap-3 border-b border-slate-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
-                            <div>
+                            <motion.div {...createRevealMotion(5, 0.02, 0.38)}>
                                 <p className="text-[10px] tracking-[0.24em] text-sky-600 uppercase sm:text-xs sm:tracking-[0.32em]">
                                     About
                                 </p>
                                 <h2 className="mt-2 text-xl font-semibold text-slate-950 sm:text-2xl">
                                     Summary and skills
                                 </h2>
-                            </div>
-                            <p className="max-w-2xl text-sm leading-7 text-slate-600">
+                            </motion.div>
+                            <motion.p
+                                {...createRevealMotion(6, 0.08, 0.38)}
+                                className="max-w-2xl text-sm leading-7 text-slate-600"
+                            >
                                 Full-Stack Web Developer experienced in shipping
                                 client projects using Laravel and React.js
                                 (TypeScript). Comfortable owning features
                                 end-to-end with readable and maintainable code.
-                            </p>
+                            </motion.p>
                         </div>
 
                         <div className="mt-5 mb-2">
-                            <div className="flex flex-col gap-y-2 rounded-[1.5rem] border border-sky-100 bg-[linear-gradient(135deg,_rgba(239,246,255,0.95),_rgba(255,255,255,0.98))] p-5 shadow-sm sm:p-6">
+                            <motion.div
+                                {...createRevealMotion(7, 0.04, 0.4)}
+                                className="flex flex-col gap-y-2 rounded-[1.5rem] border border-sky-100 bg-[linear-gradient(135deg,_rgba(239,246,255,0.95),_rgba(255,255,255,0.98))] p-5 shadow-sm sm:p-6"
+                            >
                                 <div className="inline-flex rounded-full border border-sky-100 bg-white px-3 py-1 text-[10px] font-semibold tracking-[0.22em] text-sky-700 uppercase">
                                     Profile snapshot
                                 </div>
@@ -561,27 +575,12 @@ export default function Welcome() {
                                     calm, professional, and ready for real
                                     clients.
                                 </p>
-                                {/* <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                                    <div className="rounded-2xl border border-sky-100 bg-white p-4">
-                                        <p className="text-[10px] tracking-[0.24em] text-sky-600 uppercase">
-                                            Location
-                                        </p>
-                                        <p className="mt-2 text-sm font-semibold text-slate-900">
-                                            Ciputat Timur, South Tangerang
-                                        </p>
-                                    </div>
-                                    <div className="rounded-2xl border border-indigo-100 bg-white p-4">
-                                        <p className="text-[10px] tracking-[0.24em] text-indigo-600 uppercase">
-                                            Availability
-                                        </p>
-                                        <p className="mt-2 text-sm font-semibold text-slate-900">
-                                            Freelance and full-time roles
-                                        </p>
-                                    </div>
-                                </div> */}
-                            </div>
+                            </motion.div>
 
-                            <div className="p-5 sm:p-6">
+                            <motion.div
+                                {...createRevealMotion(8, 0.06, 0.4)}
+                                className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+                            >
                                 <div className="flex items-center justify-between gap-3">
                                     <p className="text-[10px] tracking-[0.24em] text-slate-400 uppercase sm:text-xs sm:tracking-[0.3em]">
                                         Skills
@@ -607,7 +606,7 @@ export default function Welcome() {
                                         </div>
                                     ))}
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
 
                         <div className="mt-5 grid gap-4 lg:grid-cols-2">
@@ -645,18 +644,21 @@ export default function Welcome() {
 
                     <section className="mt-8 sm:mt-10">
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
-                            <div>
+                            <motion.div {...createRevealMotion(9, 0.02, 0.38)}>
                                 <p className="text-[10px] tracking-[0.24em] text-slate-400 uppercase sm:text-xs sm:tracking-[0.32em]">
                                     Experience
                                 </p>
                                 <h2 className="mt-2 text-xl font-semibold text-slate-950 sm:text-2xl">
                                     Work history
                                 </h2>
-                            </div>
-                            <p className="max-w-xl text-sm leading-7 text-slate-600">
+                            </motion.div>
+                            <motion.p
+                                {...createRevealMotion(10, 0.08, 0.38)}
+                                className="max-w-xl text-sm leading-7 text-slate-600"
+                            >
                                 Experience is grouped into programmer work and
                                 additional roles for easier reading.
-                            </p>
+                            </motion.p>
                         </div>
 
                         <div className="mt-5 grid gap-4 lg:grid-cols-2">
@@ -674,19 +676,11 @@ export default function Welcome() {
                                         (entry, index) => (
                                             <motion.article
                                                 key={`${entry.company}-${entry.role}`}
-                                                initial={{ opacity: 0, y: 14 }}
-                                                whileInView={{
-                                                    opacity: 1,
-                                                    y: 0,
-                                                }}
-                                                viewport={{
-                                                    once: true,
-                                                    amount: 0.2,
-                                                }}
-                                                transition={{
-                                                    duration: 0.45,
-                                                    delay: index * 0.05,
-                                                }}
+                                                {...createRevealMotion(
+                                                    11 + index,
+                                                    index * 0.04,
+                                                    0.38,
+                                                )}
                                                 className="rounded-[1.35rem] border border-slate-200 bg-white p-4 shadow-sm"
                                             >
                                                 <div className="flex flex-wrap items-start justify-between gap-3">
@@ -742,19 +736,11 @@ export default function Welcome() {
                                         (entry, index) => (
                                             <motion.article
                                                 key={`${entry.company}-${entry.role}`}
-                                                initial={{ opacity: 0, y: 14 }}
-                                                whileInView={{
-                                                    opacity: 1,
-                                                    y: 0,
-                                                }}
-                                                viewport={{
-                                                    once: true,
-                                                    amount: 0.2,
-                                                }}
-                                                transition={{
-                                                    duration: 0.45,
-                                                    delay: index * 0.05,
-                                                }}
+                                                {...createRevealMotion(
+                                                    15 + index,
+                                                    index * 0.04,
+                                                    0.38,
+                                                )}
                                                 className="rounded-[1.35rem] border border-slate-200 bg-slate-50 p-4 shadow-sm"
                                             >
                                                 <div className="flex flex-wrap items-start justify-between gap-3">
@@ -805,26 +791,37 @@ export default function Welcome() {
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.8),_transparent_28%),radial-gradient(circle_at_85%_20%,_rgba(14,165,233,0.18),_transparent_24%),radial-gradient(circle_at_15%_80%,_rgba(59,130,246,0.12),_transparent_28%)]" />
                         <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-8 lg:px-10">
                             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
-                                <div>
+                                <motion.div
+                                    {...createRevealMotion(19, 0.02, 0.38)}
+                                >
                                     <p className="text-[10px] tracking-[0.24em] text-sky-600 uppercase sm:text-xs sm:tracking-[0.32em]">
                                         Projects
                                     </p>
                                     <h2 className="mt-2 text-xl font-semibold text-slate-950 sm:text-2xl">
                                         Client websites
                                     </h2>
-                                </div>
-                                <p className="max-w-xl text-sm leading-7 text-slate-600">
+                                </motion.div>
+                                <motion.p
+                                    {...createRevealMotion(20, 0.08, 0.38)}
+                                    className="max-w-xl text-sm leading-7 text-slate-600"
+                                >
                                     All project entries are taken from the
                                     resume, including live and development
                                     links.
-                                </p>
+                                </motion.p>
                             </div>
 
                             <div className="mt-4 flex items-center justify-between gap-3 sm:mt-5">
-                                <p className="text-xs tracking-[0.26em] text-sky-600 uppercase">
+                                <motion.p
+                                    {...createRevealMotion(21, 0.04, 0.34)}
+                                    className="text-xs tracking-[0.26em] text-sky-600 uppercase"
+                                >
                                     Carousel
-                                </p>
-                                <div className="flex gap-2">
+                                </motion.p>
+                                <motion.div
+                                    {...createRevealMotion(22, 0.06, 0.34)}
+                                    className="flex gap-2"
+                                >
                                     <button
                                         type="button"
                                         onClick={() => scrollProjects(-1)}
@@ -839,7 +836,7 @@ export default function Welcome() {
                                     >
                                         Next
                                     </button>
-                                </div>
+                                </motion.div>
                             </div>
 
                             <div
@@ -849,67 +846,101 @@ export default function Welcome() {
                                 {projects.map((project, index) => (
                                     <motion.article
                                         key={project.name}
-                                        initial={{ opacity: 0, y: 18 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
+                                        {...createRevealMotion(
+                                            23 + index,
+                                            index * 0.05,
+                                            0.36,
+                                        )}
                                         whileHover={{ y: -6, scale: 1.01 }}
-                                        viewport={{ once: true, amount: 0.2 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            delay: index * 0.08,
-                                        }}
-                                        className="group relative w-[300px] shrink-0 snap-start overflow-hidden rounded-[1.5rem] border border-white/70 bg-white/90 p-4 text-slate-900 shadow-[0_16px_48px_rgba(59,130,246,0.08)] transition sm:w-[320px] sm:p-5"
+                                        className="group relative flex h-[365px] w-[285px] shrink-0 snap-start flex-col overflow-hidden rounded-[1.4rem] border border-white/70 bg-white/90 p-3.5 text-slate-900 shadow-[0_16px_48px_rgba(59,130,246,0.08)] transition sm:h-[380px] sm:w-[300px] sm:p-4"
                                     >
                                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(59,130,246,0.14),_transparent_36%),radial-gradient(circle_at_bottom_left,_rgba(34,211,238,0.1),_transparent_28%)] opacity-0 transition duration-300 group-hover:opacity-100" />
-                                        <div className="relative">
-                                            <div className="mb-4 inline-flex rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-[10px] font-semibold tracking-[0.22em] text-sky-700 uppercase sm:text-[11px] sm:tracking-[0.24em]">
-                                                Featured Project
-                                            </div>
-                                            <div className="flex items-start justify-between gap-3">
-                                                <div>
-                                                    <p className="text-base font-semibold sm:text-lg">
-                                                        {project.name}
-                                                    </p>
-                                                </div>
+                                        <div className="relative flex h-full flex-col">
+                                            <div className="mb-3 flex items-center justify-between gap-3">
+                                                <span
+                                                    className={`rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.22em] uppercase ${
+                                                        project.status
+                                                            ? 'border border-amber-100 bg-amber-50 text-amber-700'
+                                                            : 'border border-sky-100 bg-sky-50 text-sky-700'
+                                                    }`}
+                                                >
+                                                    {project.status
+                                                        ? project.status
+                                                        : 'Featured'}
+                                                </span>
                                                 <a
                                                     href={project.live}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="rounded-full border border-sky-100 bg-sky-50 p-2 text-sky-700 transition hover:bg-sky-100 hover:text-sky-900"
+                                                    className="rounded-full border border-sky-100 bg-sky-50 p-1.5 text-sky-700 transition hover:bg-sky-100 hover:text-sky-900"
                                                     aria-label={`Open ${project.name} live site`}
                                                 >
-                                                    <ArrowUpRight className="h-4 w-4" />
+                                                    <ArrowUpRight className="h-3.5 w-3.5" />
                                                 </a>
                                             </div>
+                                            <div className="min-h-[4.25rem]">
+                                                <p className="text-base leading-6 font-semibold sm:text-lg">
+                                                    {project.name}
+                                                </p>
+                                                <p
+                                                    className={`mt-1 text-[11px] font-medium tracking-[0.16em] uppercase ${
+                                                        project.category ===
+                                                        'Internal System'
+                                                            ? 'text-indigo-600'
+                                                            : 'text-slate-500'
+                                                    }`}
+                                                >
+                                                    {project.category}
+                                                </p>
+                                            </div>
 
-                                            <div className="mt-4 flex flex-wrap gap-2">
+                                            <div className="mt-3 flex min-h-[3.75rem] flex-wrap gap-2">
                                                 {project.tech.map((tag) => (
                                                     <span
                                                         key={tag}
-                                                        className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-medium text-slate-700 sm:text-xs"
+                                                        className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-medium text-slate-700 sm:text-[11px]"
                                                     >
                                                         {tag}
                                                     </span>
                                                 ))}
                                             </div>
 
-                                            <div className="mt-5 grid gap-3 border-t border-slate-100 pt-4 text-sm">
-                                                <a
-                                                    href={project.live}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="inline-flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-700 transition hover:bg-slate-50"
-                                                >
-                                                    <span>Live</span>
-                                                    <ArrowUpRight className="h-4 w-4" />
-                                                </a>
+                                            <div className="mt-auto grid gap-2.5 border-t border-slate-100 pt-3 text-xs sm:text-sm">
+                                                {project.live ? (
+                                                    <a
+                                                        href={project.live}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        className="inline-flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-700 transition hover:bg-slate-50"
+                                                    >
+                                                        <span>Live</span>
+                                                        <ArrowUpRight className="h-3.5 w-3.5" />
+                                                    </a>
+                                                ) : (
+                                                    <div className="inline-flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-400">
+                                                        <span>
+                                                            No Live Link
+                                                        </span>
+                                                        <ArrowUpRight className="h-3.5 w-3.5" />
+                                                    </div>
+                                                )}
                                                 <a
                                                     href={project.dev}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="inline-flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-700 transition hover:bg-slate-50"
+                                                    className="inline-flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-700 transition hover:bg-slate-50"
                                                 >
                                                     <span>Dev</span>
-                                                    <ArrowUpRight className="h-4 w-4" />
+                                                    <ArrowUpRight className="h-3.5 w-3.5" />
+                                                </a>
+                                                <a
+                                                    href={project.github}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="inline-flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-700 transition hover:bg-slate-50"
+                                                >
+                                                    <span>GitHub</span>
+                                                    <Github className="h-3.5 w-3.5" />
                                                 </a>
                                             </div>
                                         </div>
@@ -927,7 +958,7 @@ export default function Welcome() {
                         <div className="pointer-events-none absolute -bottom-24 -left-20 h-56 w-56 rounded-full bg-blue-300/25 blur-3xl" />
 
                         <div className="relative grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-                            <div>
+                            <motion.div {...createRevealMotion(31, 0.02, 0.38)}>
                                 <p className="text-[10px] tracking-[0.24em] text-sky-600 uppercase sm:text-xs sm:tracking-[0.32em]">
                                     Contact
                                 </p>
@@ -983,13 +1014,10 @@ export default function Welcome() {
                                         ))}
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
 
                             <motion.div
-                                initial={{ opacity: 0, y: 16 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.2 }}
-                                transition={{ duration: 0.6 }}
+                                {...createRevealMotion(32, 0.06, 0.42)}
                                 className="relative overflow-hidden rounded-[1.75rem] border border-white/60 bg-gradient-to-br from-white/70 via-white/35 to-sky-100/30 p-3 shadow-[0_24px_70px_rgba(59,130,246,0.18)] backdrop-blur-xl"
                             >
                                 <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/90" />
