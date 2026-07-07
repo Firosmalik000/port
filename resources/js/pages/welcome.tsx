@@ -183,7 +183,7 @@ const projects: Project[] = [
         category: 'Internal System',
         tech: ['Laravel', 'Tailwind CSS', 'React Inertia', 'Framer Motion'],
         live: '',
-        dev: 'https://arrayan.firos.web.id',
+        dev: 'https://arrayyan.firos.web.id',
         github: 'https://github.com/Firosmalik000/arrayyan-learning-course',
         status: 'Ongoing',
     },
